@@ -6,8 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-requests = {editable = true,git = "https://github.com/requests/requests.git"}
 flask = "*"
+sqlalchemy = "*"
+requests = {editable = true,git = "https://github.com/requests/requests.git"}
+graphene-sqlalchemy = "*"
+flask-graphql = "*"
 
 [requires]
 python_version = "3.7"
