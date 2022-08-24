@@ -7,10 +7,11 @@ verify_ssl = true
 
 [packages]
 flask = "*"
-sqlalchemy = "*"
 requests = {editable = true,git = "https://github.com/requests/requests.git"}
-graphene-sqlalchemy = "*"
 flask-graphql = "*"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+psycopg2-binary = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.10"
