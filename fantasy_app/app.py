@@ -6,10 +6,10 @@ from decouple import config
 def create_app():
 
     app = Flask(__name__, instance_relative_config=True)
-    app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+    #app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 
     # stop tracking modifications
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     #DB.init_app(app)
 
