@@ -13,7 +13,9 @@ def create_app():
 
     #DB.init_app(app)
 
-
+    @app.route('/')
+    def hello():
+        return 'Hello, World!!'
 
 
     # a simple page that says hello
