@@ -1,11 +1,11 @@
 # Third-party imports
 from flask import Flask
-from decouple import config
+#from decouple import config
 
 
 def create_app():
 
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__)
     #app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 
     # stop tracking modifications
@@ -14,7 +14,7 @@ def create_app():
     #DB.init_app(app)
 
     @app.route('/')
-    def hello():
+    def hello1():
         return 'Hello, World!!'
 
 
