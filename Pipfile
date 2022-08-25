@@ -12,6 +12,7 @@ flask-graphql = "*"
 flask-sqlalchemy = "*"
 flask-migrate = "*"
 psycopg2-binary = "*"
+decouple = "*"
 
 [requires]
 python_version = "3.10"
