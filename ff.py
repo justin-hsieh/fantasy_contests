@@ -2,9 +2,9 @@ from espn_api_submodule.espn_api.football import League
 
 league = League(league_id=69192084, year=2022, espn_s2='AECtBC8t2p%2F1HWtD9xwcZTJbKZnmIy2jPmG6JJMKDE7WjJ0YmGBLZG7i%2FOkb5aGb%2F%2BpKL%2Bxe33dXnl%2F6MDJwDbrD2thKx0SwXDB2wRJF%2F0oompDwq04%2BoR9qoX0777%2Bksnn2Hr55WelNUxLArj4Ea2XCCDCTO4S%2BgW147eUAqFSf28q93COtLYtnFk1uxKRkm2awp2ZxVycaBI2TMGeC1UNYUoP2wJBw%2F9s%2F2BPJKUC6hz8NtlXO2lSauKcY4cGxfSHfrfnOf0kgfJIJephWMeXYox9Hb7e7MRmd1TwLuL%2FP2w%3D%3D',swid='{832BF702-905D-40ED-ABF7-02905D90EDB1}')
 
-
+print(league)
 team = league.teams
-
+#print(team)
 #player = team.roster[0]
 #print(team[0].team_id, team[0].team_abbrev, team[0].team_name)
 #print(team[0].roster)
@@ -34,13 +34,16 @@ for i in range(len(box_score)):
 '''
 
 def get_most_position_points(matchups, position):
+    player_dict = {}
     for matchup in range(len(matchups)):
         away = box_score[matchup].away_lineup
         home = box_score[matchup].home_lineup
         for player in range(len(away)):
             if away[player].slot_position == position:
-                print(player)
-                print(away[player].name)
-                print(away[player].points)
+                player_dict[(away[player].name)] = away[player].points
+                #print(away[player].name)
+                #print(away[player].points)
+    #print(player_dict)
+    return player_dict
 
 get_most_position_points(box_score, 'RB')
