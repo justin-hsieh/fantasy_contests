@@ -1,3 +1,5 @@
+import sys
+sys.path.append('..')
 from espn_api_submodule.espn_api.football import League
 #from lists import contests
 
@@ -88,7 +90,8 @@ def get_yards(position, stat, currentweek):
                         player_dict[team] = {'player': {(player.name): 0}}
     
     return player_dict
-dict1 = get_yards(['P'], '139', currentweek)
+dict1 = get_yards(['P'], '139', 1)
+print(dict1)
 
 def get_most_position_points(position):
     matchups = league.box_scores()
@@ -131,4 +134,4 @@ dict1 = get_most_position_points(['TE'])
 #dict2 = highest_single_player(dict1)
 
 #print(dict1)
-print(order_positions_by_points(dict1))
+#print(order_positions_by_points(dict1))
