@@ -91,7 +91,7 @@ def get_yards(position, stat, currentweek):
     
     return player_dict
 dict1 = get_yards(['P'], '139', 1)
-print(dict1)
+#print(dict1)
 
 def get_most_position_points(position):
     matchups = league.box_scores()
