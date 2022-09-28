@@ -1,5 +1,5 @@
-import sys
-sys.path.append('..')
+#import sys
+#sys.path.append('..')
 from espn_api_submodule.espn_api.football import League
 #from lists import contests
 
