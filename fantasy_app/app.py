@@ -1,6 +1,6 @@
 # Third-party imports
 from flask import Flask
-#from decouple import config
+##from decouple import config
 
 
 def create_app():
@@ -15,12 +15,6 @@ def create_app():
 
     @app.route('/')
     def hello1():
-        return 'Hello, World!!'
-
-
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
         return 'Hello, World!!'
     
     return app
