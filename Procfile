@@ -1,1 +1,1 @@
-web: gunicorn fantasy_app:APP -t 120
+web: gunicorn fantasycontests:APP -t 120
