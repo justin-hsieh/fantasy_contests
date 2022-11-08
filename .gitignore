@@ -106,3 +106,4 @@ venv.bak/
 
 # Submodules
 .gitmodules
+.vscode
