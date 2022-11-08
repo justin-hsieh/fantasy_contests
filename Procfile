@@ -1,0 +1,1 @@
+web: gunicorn fantasy_app:APP -t 120
