@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: "Fantasy Contests Flask REST API"
+  description: "An API to disperse contest results"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+paths:
+  /:
+    get:
+      operationId: "fantasy_app.functions.hello11"
+      tags:
+        - "test"
+      summary: "print hello statement"
+      responses:
+        "200":
+          description: "Successfully printed hello statement"
