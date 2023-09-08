@@ -45,15 +45,6 @@ def highest_score():
     #rank = order_positions_by_points(points)
     data = json.dumps(points1)
     return data
-
-@app.route('/point', methods=['GET','POST'])
-def testings():
-    j = request.get_json()
-    position = j['position']
-    response = get_yards(position)
-    data = json.dumps(response)
-
-    return data
 '''
 
 
