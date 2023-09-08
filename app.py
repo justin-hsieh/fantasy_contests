@@ -57,9 +57,20 @@ def testings():
 '''
 
 
-@app.route('/most_points', methods=['GET', 'POST'])
-def calculate_yards():
+@app.route('/most_points_get', methods=['GET'])
+def calculate_most_points_get():
     stat = 'total_de_points'
+    points = get_most_position_points(
+        contests[stat]['position_list'], current_week())
+    ranks = order_positions_by_points(points)
+    data = json.dumps(ranks)
+    return jsonify(data)
+
+
+@app.route('/most_points_post', methods=['POST'])
+def calculate_most_points_post():
+    point_request = request.get_json()
+    stat = point_request['contest']
     points = get_most_position_points(
         contests[stat]['position_list'], current_week())
     ranks = order_positions_by_points(points)
