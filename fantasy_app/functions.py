@@ -2,7 +2,7 @@ import os
 import json
 from datetime import datetime
 from dotenv import load_dotenv
-from espn_api_submodule.espn_api.football.league import League
+from .espn_api_submodule.espn_api.football.league import League
 
 
 # load environment variables
@@ -24,7 +24,7 @@ def get_year():
 
 league = League(
     league_id=LEAGUE_ID,
-    year=2023,
+    year=get_year(),
     espn_s2=ESPN_S2,
     swid=SWID
 )
@@ -120,33 +120,35 @@ def get_most_position_points(position, currentweek=0):
         for player in away:
             if player.slot_position in position:
                 if matchup.away_team.team_name in player_dict:
-                    player_dict[matchup.away_team.team_name]['player'].update(
+                    player_dict[matchup.away_team.team_name]['stats'].update(
                         {(player.name): player.points})
                 else:
                     player_dict[matchup.away_team.team_name] = {
-                        'player': {(player.name): player.points}}
+                        'stats': {(player.name): player.points}}
         for player in home:
             if player.slot_position in position:
                 if matchup.home_team.team_name in player_dict:
-                    player_dict[matchup.home_team.team_name]['player'].update(
+                    player_dict[matchup.home_team.team_name]['stats'].update(
                         {(player.name): player.points})
                 else:
                     player_dict[matchup.home_team.team_name] = {
-                        'player': {(player.name): player.points}}
+                        'stats': {(player.name): player.points}}
 
     return player_dict
 
 
-dict1 = get_most_position_points(['QB'], 8)
-print(dict1)
+dict1 = get_most_position_points(['QB'], 1)
 
 
 def order_positions_by_points(player_dict):
 
     for team, info in player_dict.items():
         player_dict[team].update(
-            {'total': round(sum(info['player'].values()), 2)})
+            {'total': round(sum(info['stats'].values()), 2)})
     result = list(sorted(player_dict.items(),
                   key=lambda x: x[1]['total'], reverse=True))
 
     return result
+
+
+# print(order_positions_by_points(dict1))

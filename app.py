@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 import json
 # from decouple import config
-from fantasy_app.functions import current_week, get_team_list
+from fantasy_app.functions import current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 
 
@@ -26,6 +26,7 @@ def submodule():
     return jsonify(str(week))
 
 
+'''
 @app.route('/get_teams', methods=['GET'])
 def get_team():
     teams = list(get_team_list())
@@ -33,7 +34,7 @@ def get_team():
     return jsonify(teams)
 
 
-'''
+
 @app.route('/test', methods=['GET','POST'])
 def highest_score():
 
@@ -53,13 +54,14 @@ def testings():
     data = json.dumps(response)
 
     return data
+'''
 
-    
+
 @app.route('/most_points', methods=['GET', 'POST'])
 def calculate_yards():
-    position =  'total_punter_points'
-    points = get_most_position_points(contests[position]['position_list'], 8)
+    stat = 'total_de_points'
+    points = get_most_position_points(
+        contests[stat]['position_list'], current_week())
     ranks = order_positions_by_points(points)
     data = json.dumps(ranks)
     return jsonify(data)
-'''
