@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 import json
 # from decouple import config
-from fantasy_app.functions import hello11, current_week
+from fantasy_app.functions import current_week, get_team_list
 from fantasy_app.contest_list import contests
 
 
@@ -17,13 +17,20 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello1():
-    return 'Hello, World!!'
+    return jsonify('This is working')
 
 
 @app.route('/test_submodule', methods=['GET'])
 def submodule():
     week = current_week()
-    return str(week)
+    return jsonify(str(week))
+
+
+@app.route('/get_teams', methods=['GET'])
+def get_team():
+    teams = list(get_team_list())
+    print(teams)
+    return jsonify(teams)
 
 
 '''
