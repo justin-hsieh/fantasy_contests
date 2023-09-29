@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 import json
 # from decouple import config
-from fantasy_app.functions import current_week, get_most_position_points, order_positions_by_points
+from fantasy_app.functions import get_week, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 
 
@@ -50,12 +50,12 @@ def highest_score():
 
 @app.route('/most_points_get', methods=['GET'])
 def calculate_most_points_get():
-    stat = 'total_de_points'
+    stat = 'total_rb_points'
     points = get_most_position_points(
-        contests[stat]['position_list'], current_week())
+        contests[stat]['position_list'], current_week()-1)
     ranks = order_positions_by_points(points)
-    data = json.dumps(ranks)
-    return jsonify(data)
+    # data = json.dumps(ranks)
+    return jsonify(ranks)
 
 
 @app.route('/most_points_post', methods=['POST'])

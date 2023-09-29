@@ -22,16 +22,26 @@ def get_year():
     return currentYear
 
 
+def current_week():
+    return league.current_week
+
+
+def get_week():
+    today = datetime.date.today()
+    weekday_number = today.weekday()
+    week = current_week()
+
+    if weekday_number < 3:
+        week = current_week() - 1
+    return week
+
+
 league = League(
     league_id=LEAGUE_ID,
     year=get_year(),
     espn_s2=ESPN_S2,
     swid=SWID
 )
-
-
-def current_week():
-    return league.current_week
 
 
 def get_team_list():
@@ -48,7 +58,7 @@ def get_highest(position, stat, currentweek=0):
         matchups = league.box_scores(currentweek)
     else:
         matchups = get_current_matchups()
-        currentweek = current_week()
+        currentweek = get_week()
     player_dict = {}
     for matchup_index, matchup in enumerate(matchups):
         away = matchup.away_lineup
