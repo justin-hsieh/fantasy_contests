@@ -2,7 +2,7 @@
 from flask import Flask, jsonify, request
 import json
 # from decouple import config
-from fantasy_app.functions import get_week, current_week, get_most_position_points, order_positions_by_points
+from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 
 
@@ -22,8 +22,13 @@ def hello1():
 
 @app.route('/test_submodule', methods=['GET'])
 def submodule():
-    week = current_week()
-    return jsonify(str(week))
+    matchups = get_current_matchups()
+    for matchup_index, matchup in enumerate(matchups):
+        away = matchup.away_lineup
+        for player_index, player in enumerate(away):
+            team = matchup.away_team.team_name
+
+    return jsonify(str(matchups))
 
 
 '''
@@ -50,7 +55,7 @@ def highest_score():
 
 @app.route('/most_points_get', methods=['GET'])
 def calculate_most_points_get():
-    stat = 'total_rb_points'
+    stat = 'total_lb_points'
     points = get_most_position_points(
         contests[stat]['position_list'], current_week()-1)
     ranks = order_positions_by_points(points)
