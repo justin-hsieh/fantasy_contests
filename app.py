@@ -54,7 +54,6 @@ def calculate_most_points_get():
     points = get_most_position_points(
         contests[stat]['position_list'], current_week()-1)
     ranks = order_positions_by_points(points)
-    # data = json.dumps(ranks)
     return jsonify(ranks)
 
 
@@ -65,5 +64,4 @@ def calculate_most_points_post():
     points = get_most_position_points(
         contests[stat]['position_list'], current_week())
     ranks = order_positions_by_points(points)
-    data = json.dumps(ranks)
-    return jsonify(data)
+    return jsonify(ranks)
