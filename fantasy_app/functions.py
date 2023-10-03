@@ -130,7 +130,8 @@ def new_dict(position, current_dict, lineup):
             count += 1
             current_dict['player{}'.format(count)] = {
                 'name': player.name,
-                'score': player.points
+                'score': player.points,
+                'game_played': player.game_played
             }
             total_score += player.points
     current_dict['total_score'] = total_score
