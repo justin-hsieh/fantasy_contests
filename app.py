@@ -1,6 +1,7 @@
 # Third-party imports
 from flask import Flask, jsonify, request
 import json
+from flask_cors import CORS, cross_origin
 # from decouple import config
 from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
@@ -8,7 +9,7 @@ from fantasy_app.contest_list import contests
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 app = Flask(__name__)
-
+CORS(app, supports_credentials=True)
 # stop tracking modifications
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
