@@ -9,8 +9,7 @@ from fantasy_app.contest_list import contests
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
 app = Flask(__name__)
-allowed_origins = ["http://localhost:3000/"]
-CORS(app, supports_credentials=True, origins=allowed_origins)
+CORS(app, supports_credentials=True)
 # stop tracking modifications
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
