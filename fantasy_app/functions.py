@@ -170,6 +170,10 @@ dict1 = get_most_position_points(['WR'], 1)
 def order_positions_by_points(score_list):
     sorted_list = sorted(score_list, key=operator.itemgetter(
         'total_score'), reverse=True)
+
+    for i, member_dict in enumerate(sorted_list):
+        member_dict["rank"] = i + 1
+        # member_dict["rank"] = position + 1
     return sorted_list
 
 
