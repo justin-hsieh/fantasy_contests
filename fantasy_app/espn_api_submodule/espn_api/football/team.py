@@ -1,23 +1,32 @@
 from .player import Player
 
+
 class Team(object):
     '''Teams are part of the league'''
+
     def __init__(self, data, roster, member, schedule, year, **kwargs):
         self.team_id = data['id']
         self.team_abbrev = data['abbrev']
-        self.team_name = "%s %s" % (data['location'], data['nickname'])
+        self.team_name = data.get('name', 'Unknown')
+        if self.team_name == 'Unknown':
+            self.team_name = "%s %s" % (
+                data.get('location', 'Unknown'), data.get('nickname', 'Unknown'))
         self.division_id = data['divisionId']
-        self.division_name = '' # set by caller
+        self.division_name = ''  # set by caller
         self.wins = data['record']['overall']['wins']
         self.losses = data['record']['overall']['losses']
         self.ties = data['record']['overall']['ties']
         self.points_for = data['record']['overall']['pointsFor']
-        self.points_against = round(data['record']['overall']['pointsAgainst'], 2)
-        self.acquisitions = data.get('transactionCounter', {}).get('acquisitions', 0)
-        self.acquisition_budget_spent = data.get('transactionCounter', {}).get('acquisitionBudgetSpent', 0)
+        self.points_against = round(
+            data['record']['overall']['pointsAgainst'], 2)
+        self.acquisitions = data.get(
+            'transactionCounter', {}).get('acquisitions', 0)
+        self.acquisition_budget_spent = data.get(
+            'transactionCounter', {}).get('acquisitionBudgetSpent', 0)
         self.drops = data.get('transactionCounter', {}).get('drops', 0)
         self.trades = data.get('transactionCounter', {}).get('trades', 0)
-        self.playoff_pct = data.get('currentSimulationResults', {}).get('playoffPct', 0) * 100
+        self.playoff_pct = data.get(
+            'currentSimulationResults', {}).get('playoffPct', 0) * 100
         self.draft_projected_rank = data.get('draftDayProjectedRank', 0)
         self.owner = 'None'
         if member:
@@ -27,7 +36,7 @@ class Team(object):
         self.streak_type = data['record']['overall']['streakType']
         self.standing = data['playoffSeed']
         self.final_standing = data['rankCalculatedFinal']
-        if 'logo' in data:    
+        if 'logo' in data:
             self.logo_url = data['logo']
         else:
             self.logo_url = ''
@@ -37,11 +46,12 @@ class Team(object):
         self.outcomes = []
         self.mov = []
         self._fetch_schedule(schedule)
+        self.owners = data.get('owners', [])
         self._fetch_roster(roster, year)
 
     def __repr__(self):
         return 'Team(%s)' % (self.team_name, )
-    
+
     def _fetch_roster(self, data, year):
         '''Fetch teams roster'''
         self.roster.clear()
@@ -58,22 +68,25 @@ class Team(object):
                 if matchup['away']['teamId'] == self.team_id:
                     score = matchup['away']['totalPoints']
                     opponentId = matchup['home']['teamId']
-                    self.outcomes.append(self._get_winner(matchup['winner'], True))
+                    self.outcomes.append(
+                        self._get_winner(matchup['winner'], True))
                     self.scores.append(score)
                     self.schedule.append(opponentId)
                 elif matchup['home']['teamId'] == self.team_id:
                     score = matchup['home']['totalPoints']
                     opponentId = matchup['away']['teamId']
-                    self.outcomes.append(self._get_winner(matchup['winner'], False))
+                    self.outcomes.append(
+                        self._get_winner(matchup['winner'], False))
                     self.scores.append(score)
                     self.schedule.append(opponentId)
             elif matchup['home']['teamId'] == self.team_id:
                 score = matchup['home']['totalPoints']
                 opponentId = matchup['home']['teamId']
-                self.outcomes.append(self._get_winner(matchup['winner'], False))
+                self.outcomes.append(
+                    self._get_winner(matchup['winner'], False))
                 self.scores.append(score)
                 self.schedule.append(opponentId)
-    
+
     def _get_winner(self, winner: str, is_away: bool) -> str:
         if winner == 'UNDECIDED':
             return 'U'
