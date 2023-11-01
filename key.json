@@ -1,13 +1,1 @@
-{
-  "type": "service_account",
-  "project_id": "fantasy-contests",
-  "private_key_id": "666c2a25326a1a0d4026e850e881eb9f399ab6fc",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCulw7bps+GQB3w\n4GS130M0YwNi0YgI2gvZ/JZy1HrweSgP9ZCaiKNgEgRZPvhhMfol+qEirEpnI6Z6\nfTudyl5dxVMlVjfbcRIu06CnQdkKFz/OYeB9J+FlwnsywJMgUeZTJFhYckPnH4zu\noa+FFfH50c627uenhM4Jd1DuLMJzhf/VnL8szNnr//RofHtrs2mDBhKFUy+GfNWy\nFaPiBo2XXP/6sV1LBh3b0TWSGTZDx0lwF55uzS58PjHzw9yPlyySMsUSv9tmpACe\n65N8eiixcx7niAN8ig3toDa6afRsSFC8bVwRnNK5s9YMAYAarzSLtFmkszD8C3kh\n68RPutNZAgMBAAECggEALivFoqIJJJxFLsPw7kYGXE7JAPOfkZO0aagKU4DMqFaq\nGRpcbPmwlwH8w2tLPUz9tdiDj4tXu9HqP19qCi8P6KV7+RZFfFN5NwgBZuobjzcZ\nyScKOp721TXq5b+WyQfPrPIiKPXC7lbiKuN4au4kSWhKTgd9HMiawlcbAHm2zNzV\nUE6lh8bzYybHUz3G4nMu/TasMxivCOb2NlDG106dNDv2t9/s7p1yttNidRQg5Nfm\nQDlCHCaEBmQyB1/BzDITkbS4NaguNtubQqzaGN/4myn72XdZv6W7DrSc8Be6IQir\nRuRiBQEJeoLmy9J7Pv1P+jE8ayiMPrw4u8oBCiOVtwKBgQDmfry13mpDsxAdvDNA\noT68V/VL0GktSEHc9x6YlnKZLWyVKkyw/sz3DUvQsV33gMCt2t72SBSpSGOFulNB\nqth9tsd1GroCfm8VX5VuGRMFq9MQ1jCwBI3qQi9DXciAW+e8sh4s9aars7oFjo4U\nRqP3LfZgsJDH7kjpCqsmOgYXBwKBgQDB6LFoSJSZKQid7kIff5qQfgQTGOY5unIF\nSe6C/TZQrKgE1r/9KtBAfxjYwVl/9eRgAq4d3G3hg5VrywvOfvnX8f35C2dbzEFx\nXK81vHhBpbAFoIELANJk4FU5Rr7MtuQyPAwvXKvqKNn4r3m2afHGfaLu0ovPDJ2i\n5roSqUHKnwKBgC5ItMwwZVZC1rGh4QjRWC+p2e/nYbdeExuz48jwLQLlRDCP1eaU\nw8O4P8kgVKYmjIpcsPjzcHKtvo5T4/QDwoU79sFlJITrrpK0JuV8030IC9INsKkn\nwPeRYrw8UM61pcsWWUjd6yH/bRNAlPctWC+CYz73NZtwFeP16Hg8noxxAoGABsRH\nBJuby+h5q4E3/39ldmtfWwdAaX1PI04cK6gIcDJGPrz7wCrxT37f8Bh3NhbvnEYb\nq2EY2IjN+w//3nnh4B5KvZkfRz3OftU8LATisW/Fv7yFJEwoC2skrjYAzIYJWpNr\n3W8/dJFuYdZFyg7SaBnUSL9CL7yB98BTd/k+GYMCgYBdsdPTW+Cwnnhcx7zh4A/E\nn6F3g1Iny9qjx+OnKFL2Q+gU4Wr1GYbSL5rwBFIED2cXNcBXnPtTsdJxN8iqxHB3\nkNpqw9SdJR2qverh1AlRbjBY2KgiCM5VqrhBUBWhiEXZ+LTAoW1gfTK9sWxY8yEI\nd9Tg26imYxeYfM4O8WwQFg==\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-atqc1@fantasy-contests.iam.gserviceaccount.com",
-  "client_id": "118329157944890218182",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-atqc1%40fantasy-contests.iam.gserviceaccount.com",
-  "universe_domain": "googleapis.com"
-}
+
