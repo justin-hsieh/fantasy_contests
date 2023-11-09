@@ -125,16 +125,22 @@ def create_dictionary(team_name, lineup, position, stat, player_dict):
 def new_dict(position, current_dict, lineup):
     count = 0
     total_score = 0
+    player_list = []
     for player in lineup:
         if player.slot_position in position:
+
             count += 1
-            current_dict['player{}'.format(count)] = {
+            temp_dict = {
                 'name': player.name,
                 'score': player.points,
                 'game_played': player.game_played
             }
+
             total_score += player.points
+            player_list.append(temp_dict)
+
     current_dict['total_score'] = total_score
+    current_dict['players'] = player_list
     return current_dict
 
 
