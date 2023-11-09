@@ -12,9 +12,8 @@ from firebase_admin import credentials, db
 
 load_dotenv()
 DATABASE_URL = os.getenv('DATABASE_URL')
-CREDS = os.getenv('CREDS')
 
-cred = credentials.Certificate(CREDS)
+cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred, {
         'databaseURL': DATABASE_URL
