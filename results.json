@@ -1,0 +1,158 @@
+{
+  "2023": {
+    "Week": 3,
+    "contest": "Most LB Points",
+    "contest_results": [
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Foyesade Oluokun",
+          "score": 39.1
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Ernest Jones",
+          "score": 6.7
+        },
+        "rank": 1,
+        "team": "Lets Get  Weird \ud83d\udc38",
+        "total_score": 45.800000000000004
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Bobby Okereke",
+          "score": 17.2
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Tremaine Edmunds",
+          "score": 20.6
+        },
+        "rank": 2,
+        "team": "You Hate to See That",
+        "total_score": 37.8
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Bobby Wagner",
+          "score": 11.7
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Fred Warner",
+          "score": 22.4
+        },
+        "rank": 3,
+        "team": "Ma heart Mahomes",
+        "total_score": 34.099999999999994
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Kyzir White",
+          "score": 12.4
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Devin Lloyd",
+          "score": 17.6
+        },
+        "rank": 4,
+        "team": "You're being a Kyren",
+        "total_score": 30.0
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Roquan Smith",
+          "score": 12.3
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Alex Singleton",
+          "score": 16.9
+        },
+        "rank": 5,
+        "team": "Maxxy Pats",
+        "total_score": 29.2
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Jordan Hicks",
+          "score": 14.0
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Dre Greenlaw",
+          "score": 13.4
+        },
+        "rank": 6,
+        "team": "Baby got Dak",
+        "total_score": 27.4
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Terrel Bernard",
+          "score": 22.8
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Cody Barton",
+          "score": 1.4
+        },
+        "rank": 7,
+        "team": "I h8 justin",
+        "total_score": 24.2
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Zaire Franklin",
+          "score": 14.8
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Patrick Queen",
+          "score": 7.0
+        },
+        "rank": 8,
+        "team": "- CircleKirk",
+        "total_score": 21.8
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "Quay Walker",
+          "score": 10.7
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Robert Spillane",
+          "score": 10.3
+        },
+        "rank": 9,
+        "team": "Justys Spilled Seed ",
+        "total_score": 21.0
+      },
+      {
+        "player1": {
+          "game_played": 100,
+          "name": "T.J. Edwards",
+          "score": 2.8
+        },
+        "player2": {
+          "game_played": 100,
+          "name": "Pete Werner",
+          "score": 5.6
+        },
+        "rank": 10,
+        "team": "Punter? I Hardly Know Her",
+        "total_score": 8.399999999999999
+      }
+    ]
+  }
+}

@@ -1,17 +1,24 @@
 # Third-party imports
 from flask import Flask, jsonify, request
 import json
-
-from flask_cors import CORS, cross_origin
+from dotenv import load_dotenv
+import os
+from flask_cors import CORS
 # from decouple import config
 from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 import firebase_admin
 from firebase_admin import credentials, db
 
+load_dotenv()
+DATABASE_URL = os.getenv('DATABASE_URL')
+CREDS = os.getenv('CREDS')
 
-cred = credentials.Certificate("./key.json")
-firebase_admin.initialize_app(cred)
+cred = credentials.Certificate(CREDS)
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': DATABASE_URL
+    })
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
@@ -31,10 +38,6 @@ def hello1():
 @app.route('/test_submodule', methods=['GET'])
 def submodule():
     matchups = get_current_matchups()
-    for matchup_index, matchup in enumerate(matchups):
-        away = matchup.away_lineup
-        for player_index, player in enumerate(away):
-            team = matchup.away_team.team_name
 
     return jsonify(str(matchups))
 
@@ -63,18 +66,29 @@ def highest_score():
 
 @app.route('/most_points_get', methods=['GET'])
 def calculate_most_points_get():
+    contest_dict = {}
     stat = 'total_lb_points'
     points = get_most_position_points(
         contests[stat]['position_list'], current_week()-1)
-    ranks = order_positions_by_points(points)
-    return jsonify(ranks)
+    contest_dict['contest_results'] = order_positions_by_points(points)
+    contest_dict['contest'] = stat
+    return jsonify(contest_dict)
 
 
 @app.route('/most_points_post', methods=['POST'])
 def calculate_most_points_post():
+    output_dict = {}
+    contest_dict = {}
     point_request = request.get_json()
     stat = point_request['contest']
+    week = point_request['week']
+    year = point_request['year']
     points = get_most_position_points(
-        contests[stat]['position_list'], current_week())
-    ranks = order_positions_by_points(points)
-    return jsonify(ranks)
+        contests[stat]['position_list'], week)
+    contest_dict['contest_results'] = order_positions_by_points(points)
+    contest_dict['contest'] = stat
+    output_week = "week_" + str(week)
+    output_dict[output_week] = contest_dict
+    ref = db.reference("/" + str(year))
+    ref.push(output_dict)
+    return '{"status":"200", "data": "OK"}'
