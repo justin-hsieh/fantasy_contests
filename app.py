@@ -8,16 +8,16 @@ from flask_cors import CORS
 from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 import firebase_admin
-from firebase_admin import credentials, db
+from firebase_admin import credentials, firestore
 
 load_dotenv()
-DATABASE_URL = os.getenv('DATABASE_URL')
+# DATABASE_URL = os.getenv('DATABASE_URL')
+CREDS = os.getenv('CREEDS')
+
 
 cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': DATABASE_URL
-    })
+    firebase_admin.initialize_app(cred)
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
@@ -71,23 +71,24 @@ def calculate_most_points_get():
         contests[stat]['position_list'], current_week()-1)
     contest_dict['contest_results'] = order_positions_by_points(points)
     contest_dict['contest'] = stat
+
     return jsonify(contest_dict)
 
 
 @app.route('/most_points_post', methods=['POST'])
 def calculate_most_points_post():
-    output_dict = {}
     contest_dict = {}
     point_request = request.get_json()
     stat = point_request['contest']
-    week = point_request['week']
+    week = int(point_request['week'])
     year = point_request['year']
     points = get_most_position_points(
         contests[stat]['position_list'], week)
     contest_dict['contest_results'] = order_positions_by_points(points)
     contest_dict['contest'] = stat
+    contest_dict['week'] = week
     output_week = "week_" + str(week)
-    output_dict[output_week] = contest_dict
-    ref = db.reference("/" + str(year))
-    ref.push(output_dict)
+    db = firestore.client()
+    doc_ref = db.collection(year).document(output_week)
+    doc_ref.set(contest_dict)
     return '{"status":"200", "data": "OK"}'
