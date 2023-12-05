@@ -1,19 +1,12 @@
 # Third-party imports
 from flask import Flask, jsonify, request
 import json
-from dotenv import load_dotenv
-import os
 from flask_cors import CORS
 # from decouple import config
 from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 import firebase_admin
 from firebase_admin import credentials, firestore
-
-load_dotenv()
-# DATABASE_URL = os.getenv('DATABASE_URL')
-CREDS = os.getenv('CREEDS')
-
 
 cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
