@@ -5,7 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # file imports
-from fantasy_app.functions import current_week, get_most_position_points, order_positions_by_points
+from fantasy_app.scores import current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contests import contest_list
 
 
