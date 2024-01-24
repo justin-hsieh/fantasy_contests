@@ -1,5 +1,4 @@
 import os
-# import json
 import operator
 from datetime import datetime
 from dotenv import load_dotenv
@@ -14,8 +13,6 @@ LEAGUE_ID = os.getenv('LEAGUE_ID')
 ESPN_S2 = os.getenv('ESPN_S2')
 
 # retrieve football year
-
-
 def get_year():
     currentMonth = datetime.now().month
     if currentMonth > 7:
@@ -24,6 +21,12 @@ def get_year():
         currentYear = datetime.now().year - 1
     return currentYear
 
+league = League(
+    league_id=LEAGUE_ID,
+    year=get_year(),
+    espn_s2=ESPN_S2,
+    swid=SWID
+)
 
 def current_week():
     return league.current_week
@@ -37,15 +40,6 @@ def get_week():
     if weekday_number < 3:
         week = current_week() - 1
     return week
-
-
-league = League(
-    league_id=LEAGUE_ID,
-    year=get_year(),
-    espn_s2=ESPN_S2,
-    swid=SWID
-)
-
 
 def get_team_list():
     return league.teams
@@ -119,11 +113,9 @@ def create_dictionary(team_name, lineup, position, stat, player_dict):
                         player_dict[team] = {'player': {(player.name): 0}}
                 else:
                     player_dict[team] = {'player': {(player.name): 0}}
-    '''
+    
     return player_dict
-
-
-# print(get_highest(['WR'], 'receivingReceptions', current_week()))
+    '''
 def new_dict(position, current_dict, lineup):
     count = 0
     total_score = 0
@@ -144,7 +136,6 @@ def new_dict(position, current_dict, lineup):
     current_dict['total_score'] = total_score
     current_dict['players'] = player_list
     return current_dict
-
 
 def get_most_position_points(position, currentweek=0):
     matchups = league.box_scores(currentweek)
@@ -168,18 +159,10 @@ def get_most_position_points(position, currentweek=0):
         matchups_list.append(home_dict)
     return matchups_list
 
-
-dict1 = get_most_position_points(['WR'], 1)
-
-
 def order_positions_by_points(score_list):
     sorted_list = sorted(score_list, key=operator.itemgetter(
         'total_score'), reverse=True)
 
     for i, member_dict in enumerate(sorted_list):
         member_dict["rank"] = i + 1
-        # member_dict["rank"] = position + 1
     return sorted_list
-
-
-# print(order_positions_by_points(dict1))
