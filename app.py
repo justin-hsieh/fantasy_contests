@@ -1,81 +1,54 @@
 # Third-party imports
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
-from fantasy_app.contest_list import contests
 import firebase_admin
 from firebase_admin import credentials, firestore
+
+# file imports
+from fantasy_app.functions import current_week, get_most_position_points, order_positions_by_points
+from fantasy_app.contests import contest_list
+
 
 # Initialize firebase
 cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
-# Initiate application
+# Initialize application
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-
 
 @app.route('/')
 def hello1():
     return jsonify('This is working')
 
-
-@app.route('/test_submodule', methods=['GET'])
-def submodule():
-    matchups = get_current_matchups()
-
-    return jsonify(str(matchups))
-
-
-'''
-@app.route('/get_teams', methods=['GET'])
-def get_team():
-    teams = list(get_team_list())
-    print(teams)
-    return jsonify(teams)
-
-
-
-@app.route('/test', methods=['GET','POST'])
-def highest_score():
-
-    pos = request.get_json()
-    position = pos['contest']
-    points = get_most_position_points(contests[position]['position_list'])
-    points1 = highest_single_player(points)
-    #rank = order_positions_by_points(points)
-    data = json.dumps(points1)
-    return data
-'''
-
-
+# used for testing the retrieval of results
 @app.route('/most_points_get', methods=['GET'])
 def calculate_most_points_get():
-    contest_dict = {}
-    stat = 'total_lb_points'
-    points = get_most_position_points(
-        contests[stat]['position_list'], current_week()-1)
-    contest_dict['contest_results'] = order_positions_by_points(points)
-    contest_dict['contest'] = stat
-
-    return jsonify(contest_dict)
-
+    result_dict = {}
+    contest = 'total_lb_points'
+    points = get_most_position_points(contest_list[contest]['position'],
+            current_week() - 1)
+    result_dict['contest_results'] = order_positions_by_points(points)
+    result_dict['contest'] = contest
+    return jsonify(result_dict)
 
 @app.route('/most_points_post', methods=['POST'])
 def calculate_most_points_post():
-    contest_dict = {}
+    result_dict = {}
     point_request = request.get_json()
-    stat = point_request['contest']
+    contest = point_request['contest']
     week = int(point_request['week'])
     year = point_request['year']
     points = get_most_position_points(
-        contests[stat]['position_list'], week)
-    contest_dict['contest_results'] = order_positions_by_points(points)
-    contest_dict['contest'] = stat
-    contest_dict['week'] = week
+        contest_list[contest]['position'], week)
+    result_dict['contest_results'] = order_positions_by_points(points)
+    result_dict['contest'] = contest
+    result_dict['week'] = week
     output_week = "week_" + str(week)
+
+    # Add data to firestore
     db = firestore.client()
     doc_ref = db.collection(year).document(output_week)
-    doc_ref.set(contest_dict)
+    doc_ref.set(result_dict)
     return '{"status":"200", "data": "OK"}'
