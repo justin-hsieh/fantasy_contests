@@ -1,25 +1,19 @@
 # Third-party imports
 from flask import Flask, jsonify, request
-import json
 from flask_cors import CORS
-# from decouple import config
 from fantasy_app.functions import get_current_matchups, current_week, get_most_position_points, order_positions_by_points
 from fantasy_app.contest_list import contests
 import firebase_admin
 from firebase_admin import credentials, firestore
 
+# Initialize firebase
 cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
-
-# app.config['SQLALCHEMY_DATABASE_URI'] = config('DATABASE_URL')
+# Initiate application
 app = Flask(__name__)
 CORS(app, supports_credentials=True)
-# stop tracking modifications
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# DB.init_app(app)
 
 
 @app.route('/')
