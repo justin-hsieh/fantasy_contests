@@ -1,5 +1,5 @@
 import os
-import json
+# import json
 import operator
 from datetime import datetime
 from dotenv import load_dotenv
@@ -8,12 +8,14 @@ from .espn_api_submodule.espn_api.football.league import League
 
 # load environment variables
 load_dotenv()
+LEAGUE_ID = os.getenv('LEAGU2')
+SWID = os.getenv('SWID')
 LEAGUE_ID = os.getenv('LEAGUE_ID')
 ESPN_S2 = os.getenv('ESPN_S2')
-SWID = os.getenv('SWID')
-
 
 # retrieve football year
+
+
 def get_year():
     currentMonth = datetime.now().month
     if currentMonth > 7:
@@ -125,25 +127,28 @@ def create_dictionary(team_name, lineup, position, stat, player_dict):
 def new_dict(position, current_dict, lineup):
     count = 0
     total_score = 0
+    player_list = []
     for player in lineup:
         if player.slot_position in position:
+
             count += 1
-            current_dict['player{}'.format(count)] = {
+            temp_dict = {
                 'name': player.name,
                 'score': player.points,
                 'game_played': player.game_played
             }
+
             total_score += player.points
+            player_list.append(temp_dict)
+
     current_dict['total_score'] = total_score
+    current_dict['players'] = player_list
     return current_dict
 
 
 def get_most_position_points(position, currentweek=0):
-    if currentweek > 0:
-        matchups = league.box_scores(currentweek)
-    else:
-        matchups = get_current_matchups()
-        currentweek = current_week()
+    matchups = league.box_scores(currentweek)
+
     matchups_list = []
 
     for matchup in matchups:

@@ -108,3 +108,7 @@ venv.bak/
 .gitmodules
 
 .vscode
+key.json
+.ipynb
+
+db.ipynb
