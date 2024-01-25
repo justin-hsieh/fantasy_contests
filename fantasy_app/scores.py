@@ -4,7 +4,6 @@ from datetime import datetime
 from dotenv import load_dotenv
 from .espn_api_submodule.espn_api.football.league import League
 
-
 # load environment variables
 load_dotenv()
 LEAGUE_ID = os.getenv('LEAGU2')
@@ -31,7 +30,6 @@ league = League(
 def current_week():
     return league.current_week
 
-
 def get_week():
     today = datetime.date.today()
     weekday_number = today.weekday()
@@ -44,11 +42,9 @@ def get_week():
 def get_team_list():
     return league.teams
 
-
 def get_current_matchups():
     matchups = league.box_scores(current_week())
     return matchups
-
 
 def get_highest(position, stat, currentweek=0):
     if currentweek > 0:
