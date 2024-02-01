@@ -20,14 +20,11 @@ def get_year():
         currentYear = datetime.now().year - 1
     return currentYear
 
-league = League(
-    league_id=LEAGUE_ID,
-    year=get_year(),
-    espn_s2=ESPN_S2,
-    swid=SWID
-)
+def league_instance(input_year):
+    return League(league_id=LEAGUE_ID,year=input_year,espn_s2=ESPN_S2,swid=SWID)   
 
 def current_week():
+    league = league_instance(get_year())
     return league.current_week
 
 def get_week():
@@ -40,100 +37,42 @@ def get_week():
     return week
 
 def get_team_list():
+    league = league_instance(get_year())
     return league.teams
 
 def get_current_matchups():
+    league = league_instance(get_year())
     matchups = league.box_scores(current_week())
     return matchups
 
-def get_highest(position, stat, currentweek=0):
-    if currentweek > 0:
-        matchups = league.box_scores(currentweek)
-    else:
-        matchups = get_current_matchups()
-        currentweek = get_week()
-    player_dict = {}
-    for matchup_index, matchup in enumerate(matchups):
-        away = matchup.away_lineup
-        home = matchup.home_lineup
-        create_dictionary(away)
-        create_dictionary(home)
-    return player_dict
-
-
-def create_dictionary(team_name, lineup, position, stat, player_dict):
-
-    currentweek = get_week()
-    for player_index, player in enumerate(lineup):
-        if player.slot_position in position:
-            if team_name in player_dict:
-                if player.stats[currentweek].get('breakdown'):
-                    if player.stats[currentweek]['breakdown'].get(stat):
-                        player_dict[team_name]['player'].update(
-                            {(player.name): player.stats[currentweek]['breakdown'][stat]})
-                    else:
-                        player_dict[team_name]['player'].update(
-                            {(player.name): 0})
-                else:
-                    player_dict[team_name]['player'].update({(player.name): 0})
-            else:
-                if player.stats[currentweek].get('breakdown'):
-                    if player.stats[currentweek]['breakdown'].get(stat):
-                        player_dict[team_name] = {'player': {
-                            (player.name): player.stats[currentweek]['breakdown'][stat]}}
-                    else:
-                        player_dict[team_name] = {'player': {(player.name): 0}}
-                else:
-                    player_dict[team_name] = {'player': {(player.name): 0}}
-        return
-    '''
-    for player_index, player in enumerate(home):
-        if player.slot_position in position:
-            team = matchup.home_team.team_name
-            if team in player_dict:
-                if player.stats[currentweek].get('breakdown'):
-                    if player.stats[currentweek]['breakdown'].get(stat):
-                        player_dict[team]['player'].update(
-                            {(player.name): player.stats[currentweek]['breakdown'][stat]})
-                    else:
-                        player_dict[team]['player'].update(
-                            {(player.name): 0})
-                else:
-                    player_dict[team]['player'].update({(player.name): 0})
-            else:
-                if player.stats[currentweek].get('breakdown'):
-                    if player.stats[currentweek]['breakdown'].get(stat):
-                        player_dict[team] = {'player': {
-                            (player.name): player.stats[currentweek]['breakdown'][stat]}}
-                    else:
-                        player_dict[team] = {'player': {(player.name): 0}}
-                else:
-                    player_dict[team] = {'player': {(player.name): 0}}
-    
-    return player_dict
-    '''
-def new_dict(position, current_dict, lineup):
-    count = 0
-    total_score = 0
+def new_dict(position, current_dict, lineup, stat, week):
+    total = 0
     player_list = []
     for player in lineup:
         if player.slot_position in position:
-
-            count += 1
             temp_dict = {
-                'name': player.name,
-                'score': player.points,
-                'game_played': player.game_played
+                    'name': player.name,
+                    'game_played': player.game_played
             }
-
-            total_score += player.points
+            if stat[0] != '':
+                for i in stat:
+                    if player.stats[week].get('breakdown'):
+                        if player.stats[week]['breakdown'].get(i):
+                            temp_dict['score'] = player.stats[week]['breakdown'][i]
+                            total += player.stats[week]['breakdown'][i]
+                        else:
+                            temp_dict['score'] = 0
+            else:
+                temp_dict['score'] = player.points
+                total += player.points
+                
             player_list.append(temp_dict)
-
-    current_dict['total_score'] = total_score
-    current_dict['players'] = player_list
+            current_dict['total_score'] = total
+            current_dict['players'] = player_list
     return current_dict
 
-def get_most_position_points(position, currentweek=0):
+def get_most_position_points(position, stat, year, currentweek=0):
+    league = league_instance(int(year))
     matchups = league.box_scores(currentweek)
 
     matchups_list = []
@@ -148,12 +87,18 @@ def get_most_position_points(position, currentweek=0):
         player_dict1['team'] = matchup.home_team.team_name
 
         away_dict = new_dict(
-            position, player_dict, away)
+            position, player_dict, away, stat, currentweek)
         home_dict = new_dict(
-            position, player_dict1, home)
+            position, player_dict1, home, stat, currentweek)
         matchups_list.append(away_dict)
         matchups_list.append(home_dict)
     return matchups_list
+
+def get_highest_points(points_dict):
+    for entry in points_dict:
+        entry['players'] = [max(entry['players'], key=(lambda x: x['score']))]
+        entry['total_score'] = entry['players'][0]['score']
+    return points_dict
 
 def order_positions_by_points(score_list):
     sorted_list = sorted(score_list, key=operator.itemgetter(
