@@ -3,6 +3,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import firebase_admin
 from firebase_admin import credentials, firestore
+import json
 
 # file imports
 from fantasy_app.scores import current_week, get_most_position_points, order_positions_by_points, get_highest_points
@@ -13,6 +14,9 @@ from fantasy_app.contests import contest_list
 cred = credentials.Certificate("./CREDS.json")
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
+
+with open('./OWNERS.json') as f:
+    OWNERS = json.load(f)
 
 # Initialize application
 app = Flask(__name__)
@@ -42,7 +46,7 @@ def calculate_most_points_post():
     year = point_request['year']
     
     points = get_most_position_points(
-        contest_list[contest]['position'], contest_list[contest]['stat'], year, week)
+        contest_list[contest]['position'], contest_list[contest]['stat'], OWNERS, year, week)
     if contest_list[contest].get('single'):
         points = get_highest_points(points)
 

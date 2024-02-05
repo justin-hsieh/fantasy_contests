@@ -13,9 +13,7 @@ SWID = os.getenv('SWID')
 LEAGUE_ID = os.getenv('LEAGUE_ID')
 ESPN_S2 = os.getenv('ESPN_S2')
 
-with open('../OWNERS.json') as f:
-    OWNERS = json.load(f)
-    
+
 # retrieve football year
 def get_year():
     currentMonth = datetime.now().month
@@ -76,7 +74,7 @@ def new_dict(position, current_dict, lineup, stat, week):
             current_dict['players'] = player_list
     return current_dict
 
-def get_most_position_points(position, stat, year, currentweek=0):
+def get_most_position_points(position, stat, owners, year, currentweek=0):
     league = league_instance(int(year))
     matchups = league.box_scores(currentweek)
 
@@ -90,8 +88,8 @@ def get_most_position_points(position, stat, year, currentweek=0):
 
         player_dict['team_name'] = matchup.away_team.team_name
         player_dict1['team_name'] = matchup.home_team.team_name
-        player_dict['team_owner'] = OWNERS[matchup.away_team.owners[0]]
-        player_dict1['team_owner'] = OWNERS[matchup.home_team.owners[0]]
+        player_dict['team_owner'] = owners[matchup.away_team.owners[0]]
+        player_dict1['team_owner'] = owners[matchup.home_team.owners[0]]
         
         away_dict = new_dict(
             position, player_dict, away, stat, currentweek)
