@@ -3,6 +3,7 @@ import operator
 from datetime import datetime
 from dotenv import load_dotenv
 from .espn_api_submodule.espn_api.football.league import League
+from .owners import Teams
 
 # load environment variables
 load_dotenv()
@@ -22,6 +23,15 @@ def get_year():
 
 def league_instance(input_year):
     return League(league_id=LEAGUE_ID,year=input_year,espn_s2=ESPN_S2,swid=SWID)   
+
+'''
+def team_names():
+    league = league_instance(get_year())
+    for i in league.teams:
+        #print(i.owners)
+        #print(i.team_name)
+    return
+'''
 
 def current_week():
     league = league_instance(get_year())
@@ -83,9 +93,11 @@ def get_most_position_points(position, stat, year, currentweek=0):
         away = matchup.away_lineup
         home = matchup.home_lineup
 
-        player_dict['team'] = matchup.away_team.team_name
-        player_dict1['team'] = matchup.home_team.team_name
-
+        player_dict['team_name'] = matchup.away_team.team_name
+        player_dict1['team_name'] = matchup.home_team.team_name
+        player_dict['team_owner'] = Teams[matchup.away_team.owners[0]]
+        player_dict1['team_owner'] = Teams[matchup.home_team.owners[0]]
+        
         away_dict = new_dict(
             position, player_dict, away, stat, currentweek)
         home_dict = new_dict(
@@ -107,3 +119,4 @@ def order_positions_by_points(score_list):
     for i, member_dict in enumerate(sorted_list):
         member_dict["rank"] = i + 1
     return sorted_list
+
