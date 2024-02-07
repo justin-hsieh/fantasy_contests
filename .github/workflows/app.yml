@@ -20,6 +20,10 @@ jobs:
         env:
           FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
         run: echo $FIREBASE_CREDS | base64 -di > ./CREDS.json
+      - name: Create OWNERS JSON File
+        env:
+          OWNERS: ${{ secrets.OWNERS }}
+        run: echo $OWNERS | base64 -di > ./OWNERS.json
       - name: Run tests and collect coverage
         run: |
           pytest --cov=./ --cov-report=xml
