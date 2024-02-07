@@ -32,6 +32,9 @@ def calculate_most_points_get():
     result_dict = {}
     contest = 'total_lb_points'
     points = get_most_position_points(contest_list[contest]['position'],
+            contest_list[contest]['stat'],      
+            OWNERS,
+            '2023',
             current_week() - 1)
     result_dict['contest_results'] = order_positions_by_points(points)
     result_dict['contest'] = contest
