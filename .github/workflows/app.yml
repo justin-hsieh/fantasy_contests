@@ -8,6 +8,10 @@ jobs:
     name: Test python API
 
     steps:
+      - name: Create FIREBASE CREDS JSON File
+        env:
+          FIREBASE_CREDS: ${{ secrets.FIREBASE_CREDS }}
+        run: echo $FIREBASE_CREDS | base64 -di > ./CREDS.json
       - uses: actions/checkout@v1
       - uses: actions/setup-python@v2
         with:
