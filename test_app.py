@@ -1,4 +1,5 @@
 from app import app
+import json
 
 def test_hello1_route():
     response = app.test_client().get('/')
@@ -18,5 +19,6 @@ def test_calculate_most_points_post():
                                           "contest": "total_lb_tackles",
                                           "week": 14,
                                           "year": "2023"})
+    json_response = json.loads(response.get_data(as_text=True))
     assert response.status_code == 200
-    assert response.data == '{"status":"200", "data": "OK"}'
+    assert json_response == {'status':'200', 'data': 'OK'}
