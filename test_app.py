@@ -16,7 +16,7 @@ def test_calculate_most_points_get():
 def test_calculate_most_points_post():
     response = app.test_client().post('/most_points_post', 
                                       json={
-                                          "contest": "total_lb_tackles",
+                                          "contest": "highest_single_starter_points",
                                           "week": 14,
                                           "year": "2023"})
     json_response = json.loads(response.get_data(as_text=True))
