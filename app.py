@@ -52,7 +52,8 @@ def calculate_most_points_post():
         contest_list[contest]['position'], contest_list[contest]['stat'], OWNERS, year, week)
     if contest_list[contest].get('single'):
         points = get_highest_points(points)
-
+    else:
+        points = points
     result_dict['contest_results'] = order_positions_by_points(points)
     result_dict['contest'] = contest
     result_dict['week'] = week
