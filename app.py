@@ -49,7 +49,7 @@ def calculate_most_points_post():
     year = point_request['year']
     
     points = get_most_position_points(
-        contest_list[contest]['position'], contest_list[contest]['stat'], OWNERS, year, week)
+        contest_list[contest]['position'], contest_list[contest]['stat'], OWNERS, year, int(week))
     if contest_list[contest].get('single'):
         points = get_highest_points(points)
         
@@ -60,6 +60,6 @@ def calculate_most_points_post():
 
     # Add data to firestore
     db = firestore.client()
-    doc_ref = db.collection(year).document(output_week)
-    doc_ref.set(result_dict)
+    doc_ref = db.collection('yearly_data').document(year)
+    doc_ref.collection("contests").document(output_week).set(result_dict)
     return '{"status":"200", "data": "OK"}'
