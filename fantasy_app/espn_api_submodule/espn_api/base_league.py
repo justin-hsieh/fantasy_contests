@@ -2,13 +2,12 @@ from abc import ABC
 from typing import List, Tuple
 
 from .base_settings import BaseSettings
+from .base_pick import BasePick
 from .utils.logger import Logger
 from .requests.espn_requests import EspnFantasyRequests
 
-
 class BaseLeague(ABC):
     '''Creates a League instance for Public/Private ESPN league'''
-
     def __init__(self, league_id: int, year: int, sport: str, espn_s2=None, swid=None, debug=False):
         self.logger = Logger(name=f'{sport} league', debug=debug)
         self.league_id = league_id
@@ -24,51 +23,67 @@ class BaseLeague(ABC):
                 'espn_s2': espn_s2,
                 'SWID': swid
             }
-        self.espn_request = EspnFantasyRequests(
-            sport=sport, year=year, league_id=league_id, cookies=cookies, logger=self.logger)
+        self.espn_request = EspnFantasyRequests(sport=sport, year=year, league_id=league_id, cookies=cookies, logger=self.logger)
 
     def __repr__(self):
         return 'League(%s, %s)' % (self.league_id, self.year, )
 
-    def _fetch_league(self, SettingsClass=BaseSettings):
+    def _fetch_league(self, SettingsClass = BaseSettings):
         data = self.espn_request.get_league()
 
         self.currentMatchupPeriod = data['status']['currentMatchupPeriod']
         self.scoringPeriodId = data['scoringPeriodId']
         self.firstScoringPeriod = data['status']['firstScoringPeriod']
         self.finalScoringPeriod = data['status']['finalScoringPeriod']
+        self.previousSeasons = [
+            year for year in data["status"]["previousSeasons"] if year < self.year
+        ]
         if self.year < 2018:
             self.current_week = data['scoringPeriodId']
         else:
-            self.current_week = self.scoringPeriodId if self.scoringPeriodId <= data[
-                'status']['finalScoringPeriod'] else data['status']['finalScoringPeriod']
+            self.current_week = self.scoringPeriodId if self.scoringPeriodId <= data['status']['finalScoringPeriod'] else data['status']['finalScoringPeriod']
         self.settings = SettingsClass(data['settings'])
         self.members = data.get('members', [])
         return data
 
-    def _fetch_teams(self, data, TeamClass, pro_schedule=None):
+    def _fetch_draft(self):
+        '''Creates list of Pick objects from the leagues draft'''
+        data = self.espn_request.get_league_draft()
+
+        # League has not drafted yet
+        if not data.get('draftDetail', {}).get('drafted'):
+            return
+
+        picks = data.get('draftDetail', {}).get('picks', [])
+        for pick in picks:
+            team = self.get_team_data(pick.get('teamId'))
+            playerId = pick.get('playerId')
+            playerName = ''
+            if playerId in self.player_map:
+                playerName = self.player_map[playerId]
+            round_num = pick.get('roundId')
+            round_pick = pick.get('roundPickNumber')
+            bid_amount = pick.get('bidAmount')
+            keeper_status = pick.get('keeper')
+            nominatingTeam = self.get_team_data(pick.get('nominatingTeamId'))
+            self.draft.append(BasePick(team, playerId, playerName, round_num, round_pick, bid_amount, keeper_status, nominatingTeam))
+
+    def _fetch_teams(self, data, TeamClass, pro_schedule = None):
         '''Fetch teams in league'''
         self.teams = []
         teams = data['teams']
-        members = data['members']
         schedule = data['schedule']
         seasonId = data['seasonId']
+        members = data.get('members', [])
 
         team_roster = {}
         for team in data['teams']:
             team_roster[team['id']] = team.get('roster', {})
 
         for team in teams:
-            for member in members:
-                # For league that is not full the team will not have a owner field
-                if 'owners' not in team or not team['owners']:
-                    member = None
-                    break
-                elif member['id'] == team['owners'][0]:
-                    break
             roster = team_roster[team['id']]
-            self.teams.append(TeamClass(team, roster=roster, member=member,
-                              schedule=schedule, year=seasonId, pro_schedule=pro_schedule))
+            owners = [member for member in members if member.get('id') in team.get('owners', [])]
+            self.teams.append(TeamClass(team, roster=roster, schedule=schedule, year=seasonId, owners=owners, pro_schedule=pro_schedule))
 
         # sort by team ID
         self.teams = sorted(self.teams, key=lambda x: x.team_id, reverse=False)
@@ -93,10 +108,9 @@ class BaseLeague(ABC):
             pro_game = team.get('proGamesByScoringPeriod', {})
             if team['id'] != 0 and (str(scoringPeriodId) in pro_game.keys() and pro_game[str(scoringPeriodId)]):
                 game_data = pro_game[str(scoringPeriodId)][0]
-                pro_team_schedule[team['id']] = (game_data['homeProTeamId'], game_data['date']) if team['id'] == game_data['awayProTeamId'] else (
-                    game_data['awayProTeamId'], game_data['date'])
+                pro_team_schedule[team['id']] = (game_data['homeProTeamId'], game_data['date'])  if team['id'] == game_data['awayProTeamId'] else (game_data['awayProTeamId'], game_data['date'])
         return pro_team_schedule
-
+    
     def _get_all_pro_schedule(self):
         data = self.espn_request.get_pro_schedule()
 
@@ -109,6 +123,11 @@ class BaseLeague(ABC):
         return pro_team_schedule
 
     def standings(self) -> List:
-        standings = sorted(
-            self.teams, key=lambda x: x.final_standing if x.final_standing != 0 else x.standing, reverse=False)
+        standings = sorted(self.teams, key=lambda x: x.final_standing if x.final_standing != 0 else x.standing, reverse=False)
         return standings
+
+    def get_team_data(self, team_id: int) -> List:
+        for team in self.teams:
+            if team_id == team.team_id:
+                return team
+        return None

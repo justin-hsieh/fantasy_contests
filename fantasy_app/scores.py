@@ -76,7 +76,7 @@ def new_dict(position, current_dict, lineup, stat, week):
 def get_most_position_points(position, stat, owners, year, currentweek=0):
     league = league_instance(int(year))
     matchups = league.box_scores(currentweek)
-
+    
     matchups_list = []
 
     for matchup in matchups:
@@ -84,11 +84,11 @@ def get_most_position_points(position, stat, owners, year, currentweek=0):
         player_dict1 = {}
         away = matchup.away_lineup
         home = matchup.home_lineup
-
+        
         player_dict['team_name'] = matchup.away_team.team_name
         player_dict1['team_name'] = matchup.home_team.team_name
-        player_dict['team_owner'] = owners[matchup.away_team.owners[0]]
-        player_dict1['team_owner'] = owners[matchup.home_team.owners[0]]
+        player_dict['team_owner'] = owners[matchup.away_team.owners[0]['id']]
+        player_dict1['team_owner'] = owners[matchup.home_team.owners[0]['id']]
         
         away_dict = new_dict(
             position, player_dict, away, stat, currentweek)
