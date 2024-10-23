@@ -30,7 +30,7 @@ def hello1():
 @app.route('/most_points_get', methods=['GET'])
 def calculate_most_points_get():
     result_dict = {}
-    contest = 'total_lb_points'
+    contest = 'total_rb_carries'
     points = get_most_position_points(contest_list[contest]['position'],
             contest_list[contest]['stat'],      
             OWNERS,

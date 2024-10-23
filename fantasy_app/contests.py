@@ -15,10 +15,10 @@ contest_list = {
     'total_offensive_points_no_flex' : {'position': ['QB', 'RB', 'WR','TE'], 'stat': ['']},
     'total_points' : {'position' : ['QB', 'RB', 'WR','TE', 'RB/WR/TE','DE', 'LB', 'P', 'HC'], 'stat': ['']},
     'most_qb_passing_yards' : {'position': ['QB'], 'stat': ['passingYards']},
-    'most_receptions_by_wr' : {'position': ['WR'], 'stat': ['receivingReceptions']},
-    'most_receptions_by_rb' : {'position': ['RB'], 'stat': ['receivingReceptions']},
-    'most_receptions_by_wr_and_rb' : {'position': ['WR', 'RB'], 'stat': ['receivingReceptions']},
-    'most_punts_downed_within_20' : {'position': ['P'], 'stat': ['puntsInsideThe20']},
+    'total_receptions_by_wr' : {'position': ['WR'], 'stat': ['receivingReceptions']},
+    'total_receptions_by_rb' : {'position': ['RB'], 'stat': ['receivingReceptions']},
+    'total_receptions_by_wr_and_rb' : {'position': ['WR', 'RB'], 'stat': ['receivingReceptions']},
+    'total_punts_downed_within_20' : {'position': ['P'], 'stat': ['puntsInsideThe20']},
     'total_punter_yards' : {'position': ['P'], 'stat': ['puntYards']},
     'total_lb_tackles' : {'position': ['LB'], 'stat': ['defensiveTotalTackles']},
     'total_de_tackles' : {'position': ['DE'], 'stat': ['defensiveTotalTackles']},
@@ -28,5 +28,6 @@ contest_list = {
     'most_te_receiving_yards' : {'position': ['TE'], 'stat': ['receivingYards']},
     'most_wr_receiving_yards' : {'position': ['WR'], 'stat': ['receivingYards']},
     'most_rb_receiving_yards' : {'position': ['RB'], 'stat': ['receivingYards']},
-    'total_rb_and_wr_tds' : {'position': ['RB', 'WR'], 'stat': ['rushingTouchdowns', 'receivingTouchdowns']}
+    'total_rb_and_wr_tds' : {'position': ['RB', 'WR'], 'stat': ['rushingTouchdowns', 'receivingTouchdowns']},
+    'total_rb_carries' : {'position': ['RB'], 'stat': ['rushingAttempts']}
     }
